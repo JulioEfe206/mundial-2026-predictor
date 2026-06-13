@@ -6,32 +6,26 @@
     <title>World Cup 2026 Predictor</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); 
-            min-height: 100vh; 
-            color: white; 
-            padding: 20px; 
-        }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); min-height: 100vh; color: white; padding: 20px; }
         .login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
         .login-box { background: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 15px; border: 2px solid #00ffff; max-width: 400px; width: 100%; text-align: center; }
-        .login-box h1 { color: #00ffff; margin-bottom: 30px; text-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
-        .login-box input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(0, 0, 0, 0.3); border: 1px solid #00ffff; border-radius: 5px; color: white; font-size: 1em; }
-        .login-box button { width: 100%; padding: 12px; margin-top: 10px; background: linear-gradient(135deg, #00ffff, #0080ff); border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; font-size: 1em; }
+        .login-box h1 { color: #00ffff; margin-bottom: 30px; }
+        .login-box input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(0, 0, 0, 0.3); border: 1px solid #00ffff; border-radius: 5px; color: white; }
+        .login-box button { width: 100%; padding: 12px; margin-top: 10px; background: linear-gradient(135deg, #00ffff, #0080ff); border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; }
         .main-content { display: none; max-width: 1400px; margin: 0 auto; }
-        h1 { text-align: center; color: #00ffff; text-shadow: 0 0 20px rgba(0, 255, 255, 0.5); margin-bottom: 20px; }
+        h1 { text-align: center; color: #00ffff; margin-bottom: 20px; }
         .user-info { text-align: center; margin-bottom: 20px; padding: 10px; background: rgba(0, 255, 255, 0.1); border-radius: 10px; }
         .groups-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .group-card { background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(0, 255, 255, 0.3); border-radius: 10px; padding: 15px; }
-        .group-title { text-align: center; color: #00ffff; font-size: 1.3em; font-weight: bold; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid rgba(0, 255, 255, 0.3); }
+        .group-title { text-align: center; color: #00ffff; font-size: 1.3em; font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid rgba(0, 255, 255, 0.3); padding-bottom: 10px; }
         .match { background: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
         .match-header { font-size: 0.85em; color: #aaa; margin-bottom: 8px; }
         .match-teams { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .team-name { flex: 1; text-align: center; font-weight: bold; font-size: 0.95em; }
+        .team-name { flex: 1; text-align: center; font-weight: bold; }
         .vs { color: #00ffff; font-weight: bold; padding: 0 10px; }
         .prediction-buttons { display: flex; gap: 5px; }
-        .pred-btn { flex: 1; padding: 8px; border: 2px solid rgba(0, 255, 255, 0.3); background: rgba(0, 0, 0, 0.3); color: white; border-radius: 5px; cursor: pointer; font-size: 0.85em; }
-        .pred-btn:hover { background: rgba(0, 255, 255, 0.2); border-color: #00ffff; }
+        .pred-btn { flex: 1; padding: 8px; border: 2px solid rgba(0, 255, 255, 0.3); background: rgba(0, 0, 0, 0.3); color: white; border-radius: 5px; cursor: pointer; }
+        .pred-btn:hover { background: rgba(0, 255, 255, 0.2); }
         .pred-btn.selected { background: rgba(0, 255, 100, 0.3); border-color: #00ff64; font-weight: bold; }
         .controls { text-align: center; margin-top: 30px; }
         .btn { padding: 12px 25px; margin: 5px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; color: white; font-size: 1em; }
@@ -40,6 +34,7 @@
         .btn-danger { background: #ff4444; }
         .admin-panel { display: none; background: rgba(0,0,0,0.5); padding: 30px; margin-top: 30px; border-radius: 15px; border: 2px solid #ff8800; }
         .error-msg { color: #ff4444; margin-top: 10px; font-weight: bold; }
+        .result-btn { padding: 8px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
         @media (max-width: 768px) { .groups-container { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -64,7 +59,7 @@
             <button class="btn btn-danger" onclick="logout()">Logout</button>
         </div>
         <div class="admin-panel" id="adminPanel">
-            <h2 style="color: #ff8800; text-align: center;">⚙️ ADMIN PANEL</h2>
+            <h2 style="color: #ff8800; text-align: center; margin-bottom: 20px;">⚙️ ADMINISTRATION PANEL</h2>
             <div id="adminContent"></div>
         </div>
     </div>
@@ -72,7 +67,6 @@
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxEX_15k-gY7nmgoh2i8npo70zHm4ZRFab9R6kNqvjh60qX4XO1bYDIjpt1ZYs8rs1n2w/exec';
         const PASSWORD = '1234';
         const ADMIN_PASSWORD = 'julio';
-        
         let currentUser = null;
         let userPredictions = {};
         let realResults = {};
@@ -179,114 +173,66 @@
         async function apiCall(action, data = null) {
             try {
                 if (data) {
-                    await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify({ action: action, ...data })
-                    });
+                    await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action, ...data }) });
                     return { success: true };
                 } else {
                     const response = await fetch(SCRIPT_URL + '?action=' + action);
                     return await response.json();
                 }
-            } catch (error) {
-                console.error('API Error:', error);
-                return { success: false, error: error.message };
-            }
+            } catch (error) { return { success: false, error: error.message }; }
         }
 
         async function login() {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
             const errorEl = document.getElementById('errorMsg');
-
-            if (!username) { errorEl.textContent = "Please enter nickname"; errorEl.style.display = 'block'; return; }
+            if (!username) { errorEl.textContent = "Enter nickname"; errorEl.style.display = 'block'; return; }
             if (password !== PASSWORD && password !== ADMIN_PASSWORD) { errorEl.textContent = "Wrong password"; errorEl.style.display = 'block'; return; }
-
             if (password === PASSWORD) {
                 const result = await apiCall('getUsers');
                 if (result.success && result.users.map(u => u.toLowerCase()).includes(username.toLowerCase())) {
-                    errorEl.textContent = "Nickname already taken - use another one";
-                    errorEl.style.display = 'block';
-                    return;
+                    errorEl.textContent = "Nickname taken - use another"; errorEl.style.display = 'block'; return;
                 }
-                await apiCall('registerUser', { username: username });
+                await apiCall('registerUser', { username });
             }
-
-            // INICIALIZAR userPredictions SIEMPRE
             userPredictions = {};
-            
             currentUser = username;
             document.getElementById('currentUser').textContent = username;
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
-            
             await loadRealResults();
             renderGroups();
         }
 
-        async function loadRealResults() {
-            const result = await apiCall('getResults');
-            if (result.success && result.results) {
-                realResults = result.results;
-            } else {
-                realResults = {};
-            }
-        }
-
+        async function loadRealResults() { const result = await apiCall('getResults'); if (result.success) realResults = result.results || {}; }
         function logout() { location.reload(); }
 
         function renderGroups() {
-            // ASEGURAR que userPredictions exista
             if (!userPredictions) userPredictions = {};
-            
             const container = document.getElementById('groupsContainer');
             container.innerHTML = '';
-            
             for (const [groupKey, group] of Object.entries(groups)) {
                 const groupDiv = document.createElement('div');
                 groupDiv.className = 'group-card';
-                
                 const title = document.createElement('div');
                 title.className = 'group-title';
                 title.textContent = group.name;
                 groupDiv.appendChild(title);
-
                 group.matches.forEach((match, matchIdx) => {
                     const matchKey = `${groupKey}-${matchIdx}`;
                     const matchDiv = document.createElement('div');
                     matchDiv.className = 'match';
-                    
-                    matchDiv.innerHTML = `<div class="match-header">${match.date}</div>
-                        <div class="match-teams">
-                            <div class="team-name">${match.home}</div>
-                            <div class="vs">VS</div>
-                            <div class="team-name">${match.away}</div>
-                        </div>`;
-                    
+                    matchDiv.innerHTML = `<div class="match-header">${match.date}</div><div class="match-teams"><div class="team-name">${match.home}</div><div class="vs">VS</div><div class="team-name">${match.away}</div></div>`;
                     const buttons = document.createElement('div');
                     buttons.className = 'prediction-buttons';
-                    
                     ['home', 'draw', 'away'].forEach(type => {
                         const btn = document.createElement('button');
                         btn.className = 'pred-btn';
                         btn.textContent = type === 'draw' ? 'Draw' : (type === 'home' ? match.home : match.away);
-                        
-                        // VERIFICAR que userPredictions exista antes de acceder
-                        if (userPredictions && userPredictions[matchKey] === type) {
-                            btn.classList.add('selected');
-                        }
-                        
-                        btn.onclick = () => {
-                            if (!realResults[matchKey]) {
-                                userPredictions[matchKey] = type;
-                                renderGroups();
-                            }
-                        };
+                        if (userPredictions[matchKey] === type) btn.classList.add('selected');
+                        btn.onclick = () => { if (!realResults[matchKey]) { userPredictions[matchKey] = type; renderGroups(); } };
                         buttons.appendChild(btn);
                     });
-                    
                     matchDiv.appendChild(buttons);
                     groupDiv.appendChild(matchDiv);
                 });
@@ -297,16 +243,77 @@
         async function savePredictions() {
             if (!currentUser) return;
             const result = await apiCall('savePredictions', { username: currentUser, predictions: userPredictions });
-            alert(result.success ? '✅ Predictions saved!' : '❌ Error: ' + result.error);
+            alert(result.success ? '✅ Saved!' : '❌ Error: ' + result.error);
         }
 
         async function toggleAdmin() {
             const pass = prompt('Admin password:');
             if (pass === ADMIN_PASSWORD) {
                 document.getElementById('adminPanel').style.display = 'block';
-            } else {
-                alert('Wrong password');
+                renderAdminPanel();
+            } else { alert('Wrong password'); }
+        }
+
+        function renderAdminPanel() {
+            const container = document.getElementById('adminContent');
+            let html = '<h3 style="color: #00ffff; margin-bottom: 20px;">📝 Enter Real Results</h3>';
+            for (const [groupKey, group] of Object.entries(groups)) {
+                html += `<div style="margin: 20px 0; padding: 15px; background: rgba(0,255,255,0.1); border-radius: 10px;"><h4 style="color: #00ffff; margin-bottom: 15px;">${group.name}</h4>`;
+                group.matches.forEach((match, matchIdx) => {
+                    const matchKey = `${groupKey}-${matchIdx}`;
+                    html += `<div style="background: rgba(0,0,0,0.3); padding: 10px; margin: 8px 0; border-radius: 5px;">
+                        <div style="color: #aaa; font-size: 0.85em; margin-bottom: 8px;">${match.date}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong>${match.home}</strong><span style="color: #00ffff;">VS</span><strong>${match.away}</strong>
+                        </div>
+                        <div style="display: flex; gap: 5px;">
+                            <button onclick="setResult('${matchKey}', 'home')" style="flex: 1; padding: 8px; border: none; border-radius: 5px; cursor: pointer; background: ${realResults[matchKey] === 'home' ? '#00ff64' : 'rgba(0,0,0,0.5)'}; color: ${realResults[matchKey] === 'home' ? 'black' : 'white'};">${match.home}</button>
+                            <button onclick="setResult('${matchKey}', 'draw')" style="flex: 1; padding: 8px; border: none; border-radius: 5px; cursor: pointer; background: ${realResults[matchKey] === 'draw' ? '#00ff64' : 'rgba(0,0,0,0.5)'}; color: ${realResults[matchKey] === 'draw' ? 'black' : 'white'};">Draw</button>
+                            <button onclick="setResult('${matchKey}', 'away')" style="flex: 1; padding: 8px; border: none; border-radius: 5px; cursor: pointer; background: ${realResults[matchKey] === 'away' ? '#00ff64' : 'rgba(0,0,0,0.5)'}; color: ${realResults[matchKey] === 'away' ? 'black' : 'white'};">${match.away}</button>
+                        </div>
+                    </div>`;
+                });
+                html += '</div>';
             }
+            html += `<button onclick="saveRealResults()" style="width: 100%; padding: 15px; background: #00cc66; color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 20px;">💾 Save Real Results</button>
+                <button onclick="showLeaderboard()" style="width: 100%; padding: 15px; background: #00ffff; color: black; border: none; border-radius: 10px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 10px;">🏆 Show Leaderboard</button>`;
+            container.innerHTML = html;
+        }
+
+        function setResult(matchKey, result) { realResults[matchKey] = result; renderAdminPanel(); }
+
+        async function saveRealResults() {
+            const result = await apiCall('saveResults', { results: realResults });
+            alert(result.success ? '✅ Results saved!' : '❌ Error: ' + result.error);
+        }
+
+        async function showLeaderboard() {
+            const result = await apiCall('getAllPredictions');
+            if (!result.success) { alert('Error loading data'); return; }
+            const allPredictions = result.predictions;
+            const leaderboard = [];
+            for (const [user, predictions] of Object.entries(allPredictions)) {
+                let correct = 0, total = 0, points = 0;
+                for (const [matchKey, prediction] of Object.entries(predictions)) {
+                    if (realResults[matchKey]) {
+                        total++;
+                        if (prediction === realResults[matchKey]) {
+                            correct++;
+                            points += prediction === 'draw' ? 1 : 2;
+                        }
+                    }
+                }
+                leaderboard.push({ username: user, correct, total, points });
+            }
+            leaderboard.sort((a, b) => b.points - a.points);
+            let html = '<h3 style="color: #00ffff; margin-bottom: 20px;">🏆 LEADERBOARD</h3><table style="width: 100%; border-collapse: collapse;">';
+            html += '<tr style="background: rgba(0,255,255,0.2);"><th style="padding: 12px; text-align: left; border-bottom: 2px solid #00ffff;">Rank</th><th style="padding: 12px; text-align: left; border-bottom: 2px solid #00ffff;">Player</th><th style="padding: 12px; text-align: left; border-bottom: 2px solid #00ffff;">Correct</th><th style="padding: 12px; text-align: left; border-bottom: 2px solid #00ffff;">Points</th></tr>';
+            leaderboard.forEach((entry, i) => {
+                const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
+                html += `<tr style="background: ${i < 3 ? 'rgba(255,215,0,0.1)' : 'none'};"><td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);">${medal}</td><td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: bold;">${entry.username}</td><td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);">${entry.correct}/${entry.total}</td><td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); color: #00ff64; font-weight: bold;">${entry.points}</td></tr>`;
+            });
+            html += `</table><button onclick="renderAdminPanel()" style="margin-top: 20px; padding: 10px 20px; background: #ff8800; color: white; border: none; border-radius: 10px; cursor: pointer;">⬅️ Back</button>`;
+            document.getElementById('adminContent').innerHTML = html;
         }
 
         document.getElementById('password').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
