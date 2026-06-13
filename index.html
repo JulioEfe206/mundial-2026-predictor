@@ -6,24 +6,15 @@
     <title>World Cup 2026 Predictor</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); 
-            min-height: 100vh; 
-            color: white; 
-            padding: 20px; 
-        }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); min-height: 100vh; color: white; padding: 20px; }
         .login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
         .login-box { background: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 15px; border: 2px solid #00ffff; max-width: 400px; width: 100%; text-align: center; }
         .login-box h1 { color: #00ffff; margin-bottom: 30px; text-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(0, 0, 0, 0.3); border: 1px solid #00ffff; border-radius: 5px; color: white; font-size: 1em; }
         .login-box button { width: 100%; padding: 12px; margin-top: 10px; background: linear-gradient(135deg, #00ffff, #0080ff); border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; font-size: 1em; }
-        .login-box button:hover { transform: scale(1.05); }
-        .login-box button:disabled { opacity: 0.5; cursor: not-allowed; }
         .main-content { display: none; max-width: 1400px; margin: 0 auto; }
         h1 { text-align: center; color: #00ffff; text-shadow: 0 0 20px rgba(0, 255, 255, 0.5); margin-bottom: 20px; }
         .user-info { text-align: center; margin-bottom: 20px; padding: 10px; background: rgba(0, 255, 255, 0.1); border-radius: 10px; }
-        .loading { text-align: center; padding: 20px; color: #00ffff; font-size: 1.2em; }
         .groups-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .group-card { background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(0, 255, 255, 0.3); border-radius: 10px; padding: 15px; }
         .group-title { text-align: center; color: #00ffff; font-size: 1.3em; font-weight: bold; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid rgba(0, 255, 255, 0.3); }
@@ -33,45 +24,16 @@
         .team-name { flex: 1; text-align: center; font-weight: bold; font-size: 0.95em; }
         .vs { color: #00ffff; font-weight: bold; padding: 0 10px; }
         .prediction-buttons { display: flex; gap: 5px; }
-        .pred-btn { flex: 1; padding: 8px; border: 2px solid rgba(0, 255, 255, 0.3); background: rgba(0, 0, 0, 0.3); color: white; border-radius: 5px; cursor: pointer; font-size: 0.85em; transition: all 0.3s; }
+        .pred-btn { flex: 1; padding: 8px; border: 2px solid rgba(0, 255, 255, 0.3); background: rgba(0, 0, 0, 0.3); color: white; border-radius: 5px; cursor: pointer; font-size: 0.85em; }
         .pred-btn:hover { background: rgba(0, 255, 255, 0.2); border-color: #00ffff; }
         .pred-btn.selected { background: rgba(0, 255, 100, 0.3); border-color: #00ff64; font-weight: bold; }
-        .pred-btn.correct { background: rgba(0, 255, 100, 0.5); border-color: #00ff64; box-shadow: 0 0 10px rgba(0, 255, 100, 0.5); }
-        .pred-btn.incorrect { opacity: 0.3; }
-        .controls { text-align: center; margin-top: 30px; padding: 20px; }
-        .btn { padding: 12px 25px; margin: 5px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; color: white; font-size: 1em; transition: all 0.3s; }
-        .btn:hover { transform: translateY(-2px); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .controls { text-align: center; margin-top: 30px; }
+        .btn { padding: 12px 25px; margin: 5px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; color: white; font-size: 1em; }
         .btn-primary { background: #00ffff; color: #000; }
         .btn-admin { background: #ff8800; }
         .btn-danger { background: #ff4444; }
-        .btn-success { background: #00cc66; }
         .admin-panel { display: none; background: rgba(0,0,0,0.5); padding: 30px; margin-top: 30px; border-radius: 15px; border: 2px solid #ff8800; }
-        .admin-section { margin-bottom: 30px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
-        .admin-section h3 { color: #ff8800; margin-bottom: 15px; text-align: center; }
-        .real-result-select { display: flex; gap: 5px; margin-top: 8px; }
-        .result-btn { flex: 1; padding: 8px; border: 2px solid rgba(255, 136, 0, 0.3); background: rgba(0, 0, 0, 0.3); color: white; border-radius: 5px; cursor: pointer; font-size: 0.85em; }
-        .result-btn:hover { background: rgba(255, 136, 0, 0.2); }
-        .result-btn.selected { background: rgba(0, 255, 100, 0.3); border-color: #00ff64; }
-        .leaderboard { background: rgba(0, 255, 255, 0.1); border: 2px solid #00ffff; border-radius: 10px; padding: 20px; margin-top: 20px; }
-        .leaderboard h2 { color: #00ffff; text-align: center; margin-bottom: 20px; }
-        .stats-table { width: 100%; border-collapse: collapse; }
-        .stats-table th, .stats-table td { padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); text-align: left; }
-        .stats-table th { color: #00ffff; background: rgba(0, 255, 255, 0.1); }
-        .stats-table tr:hover { background: rgba(0, 255, 255, 0.05); }
-        .rank-1 { background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.1)); }
-        .rank-2 { background: linear-gradient(135deg, rgba(192, 192, 192, 0.3), rgba(192, 192, 192, 0.1)); }
-        .rank-3 { background: linear-gradient(135deg, rgba(205, 127, 50, 0.3), rgba(205, 127, 50, 0.1)); }
-        .points { font-weight: bold; color: #00ff64; font-size: 1.2em; }
-        .my-score { background: rgba(0, 255, 100, 0.1); border: 2px solid #00ff64; border-radius: 10px; padding: 20px; margin: 20px 0; text-align: center; }
-        .my-score h3 { color: #00ff64; margin-bottom: 15px; }
-        .score-details { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; }
-        .score-item { background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; min-width: 120px; }
-        .score-item .label { font-size: 0.85em; color: #aaa; margin-bottom: 5px; }
-        .score-item .value { font-size: 1.5em; font-weight: bold; color: #00ff64; }
         .error-msg { color: #ff4444; margin-top: 10px; font-weight: bold; }
-        .user-list { background: rgba(0, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin: 10px 0; max-height: 200px; overflow-y: auto; }
-        .user-item { padding: 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         @media (max-width: 768px) { .groups-container { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -80,8 +42,8 @@
         <div class="login-box">
             <h1>🏆 WORLD CUP 2026</h1>
             <p style="margin-bottom: 20px; color: #aaa;">Group Stage Predictor</p>
-            <input type="text" id="username" placeholder="Your Nickname" required>
-            <input type="password" id="password" placeholder="Password" required>
+            <input type="text" id="username" placeholder="Your Nickname">
+            <input type="password" id="password" placeholder="Password">
             <button onclick="login()" id="loginBtn">Enter</button>
             <p id="errorMsg" class="error-msg" style="display: none;"></p>
         </div>
@@ -89,193 +51,129 @@
     <div class="main-content" id="mainContent">
         <h1>🏆 WORLD CUP 2026 PREDICTOR</h1>
         <div class="user-info">Player: <strong id="currentUser"></strong></div>
-        <div class="my-score" id="myScore">
-            <h3>📊 Your Score</h3>
-            <div class="score-details">
-                <div class="score-item"><div class="label">Correct</div><div class="value" id="myCorrect">0</div></div>
-                <div class="score-item"><div class="label">Total</div><div class="value" id="myTotal">0</div></div>
-                <div class="score-item"><div class="label">Points</div><div class="value" id="myPoints">0</div></div>
-            </div>
-        </div>
-        <div id="loadingGroups" class="loading" style="display: none;">Loading matches...</div>
         <div class="groups-container" id="groupsContainer"></div>
         <div class="controls">
-            <button class="btn btn-primary" onclick="savePredictions()" id="saveBtn">💾 Save Predictions</button>
+            <button class="btn btn-primary" onclick="savePredictions()">💾 Save Predictions</button>
             <button class="btn btn-admin" onclick="toggleAdmin()">⚙️ Admin Panel</button>
-            <button class="btn btn-danger" onclick="logout()">🚪 Logout</button>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
         </div>
         <div class="admin-panel" id="adminPanel">
-            <h2 style="color: #ff8800; text-align: center; margin-bottom: 30px;">️ ADMINISTRATION PANEL</h2>
-            <div class="admin-section">
-                <h3>👥 Registered Users</h3>
-                <button class="btn btn-primary" onclick="loadUserList()" style="margin-bottom: 15px;"> Refresh User List</button>
-                <div id="userListContainer" class="user-list"><p style="text-align: center; color: #aaa;">Click "Refresh User List" to see users</p></div>
-            </div>
-            <div class="admin-section">
-                <h3>📝 Enter Real Results</h3>
-                <p style="text-align: center; margin-bottom: 15px; color: #aaa;">Select the real result for each match<br><strong>2 points for correct winner | 1 point for correct draw</strong></p>
-                <div id="realResultsContainer"></div>
-                <button class="btn btn-success" onclick="saveRealResults()" style="width: 100%; margin-top: 20px;" id="saveResultsBtn">💾 Save Real Results & Calculate Scores</button>
-            </div>
-            <div class="admin-section">
-                <h3>🏆 LEADERBOARD</h3>
-                <button class="btn btn-primary" onclick="showLeaderboard()" style="width: 100%; margin-bottom: 20px;" id="loadLeaderboardBtn"> Update Standings</button>
-                <div id="leaderboardContent"></div>
-            </div>
+            <h2 style="color: #ff8800; text-align: center;">⚙️ ADMIN PANEL</h2>
+            <div id="adminContent"></div>
         </div>
     </div>
     <script>
-        // ⚠️ IMPORTANTE: Reemplaza esta URL con la de tu Google Apps Script
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymSU5XKCaWdvwZQJxs2TO3wzhYmu00zZ0CruaBxozQ6dCGijGusqmS5GcZYk0l7RrJPA/exec';
-        
         const PASSWORD = '1234';
         const ADMIN_PASSWORD = 'julio';
-        const POINTS_WIN = 2;
-        const POINTS_DRAW = 1;
-
-        const groups = {
-            'A': {
-                name: 'Group A',
-                matches: [
-                    { date: 'Thu Jun 11 - 16:00h', home: 'Mexico', away: 'South Africa' },
-                    { date: 'Thu Jun 11 - 23:00h', home: 'South Korea', away: 'Czech Republic' },
-                    { date: 'Jun 18 - 13:00h', home: 'Czech Republic', away: 'South Africa' },
-                    { date: 'Jun 18 - 22:00h', home: 'Mexico', away: 'South Korea' },
-                    { date: 'Jun 24 - 22:00h', home: 'South Africa', away: 'South Korea' },
-                    { date: 'Jun 24 - 22:00h', home: 'Czech Republic', away: 'Mexico' }
-                ]
-            },
-            'B': {
-                name: 'Group B',
-                matches: [
-                    { date: 'Fri Jun 12 - 16:00h', home: 'Canada', away: 'Qatar' },
-                    { date: 'Jun 13 - 16:00h', home: 'Switzerland', away: 'Bosnia & Herzegovina' },
-                    { date: 'Jun 18 - 16:00h', home: 'Switzerland', away: 'Bosnia & Herzegovina' },
-                    { date: 'Jun 18 - 19:00h', home: 'Canada', away: 'Qatar' },
-                    { date: 'Jun 24 - 16:00h', home: 'Bosnia & Herzegovina', away: 'Qatar' },
-                    { date: 'Jun 24 - 16:00h', home: 'Switzerland', away: 'Canada' }
-                ]
-            },
-            'C': {
-                name: 'Group C',
-                matches: [
-                    { date: 'Sat Jun 13 - 19:00h', home: 'Brazil', away: 'Morocco' },
-                    { date: 'Sat Jun 13 - 22:00h', home: 'Haiti', away: 'Scotland' },
-                    { date: 'Jun 19 - 19:00h', home: 'Scotland', away: 'Morocco' },
-                    { date: 'Jun 19 - 22:00h', home: 'Brazil', away: 'Haiti' },
-                    { date: 'Jun 24 - 19:00h', home: 'Scotland', away: 'Brazil' },
-                    { date: 'Jun 24 - 19:00h', home: 'Morocco', away: 'Haiti' }
-                ]
-            },
-            'D': {
-                name: 'Group D',
-                matches: [
-                    { date: 'Fri Jun 12 - 22:00h', home: 'USA', away: 'Paraguay' },
-                    { date: 'Jun 14 - 01:00h', home: 'Australia', away: 'Turkey' },
-                    { date: 'Jun 19 - 16:00h', home: 'USA', away: 'Australia' },
-                    { date: 'Jun 20 - 00:00h', home: 'Turkey', away: 'Paraguay' },
-                    { date: 'Jun 25 - 23:00h', home: 'Paraguay', away: 'Australia' },
-                    { date: 'Jun 25 - 23:00h', home: 'Turkey', away: 'USA' }
-                ]
-            },
-            'E': {
-                name: 'Group E',
-                matches: [
-                    { date: 'Sun Jun 14 - 14:00h', home: 'Germany', away: 'Ecuador' },
-                    { date: 'Sun Jun 14 - 20:00h', home: 'Ivory Coast', away: 'Curacao' },
-                    { date: 'Jun 20 - 17:00h', home: 'Germany', away: 'Ivory Coast' },
-                    { date: 'Jun 20 - 21:00h', home: 'Ecuador', away: 'Curacao' },
-                    { date: 'Jun 25 - 17:00h', home: 'Curacao', away: 'Ivory Coast' },
-                    { date: 'Jun 25 - 17:00h', home: 'Ecuador', away: 'Germany' }
-                ]
-            },
-            'F': {
-                name: 'Group F',
-                matches: [
-                    { date: 'Sun Jun 14 - 17:00h', home: 'Netherlands', away: 'Japan' },
-                    { date: 'Sun Jun 14 - 23:00h', home: 'Sweden', away: 'Tunisia' },
-                    { date: 'Jun 20 - 14:00h', home: 'Netherlands', away: 'Sweden' },
-                    { date: 'Jun 21 - 01:00h', home: 'Tunisia', away: 'Japan' },
-                    { date: 'Jun 25 - 20:00h', home: 'Japan', away: 'Sweden' },
-                    { date: 'Jun 25 - 20:00h', home: 'Tunisia', away: 'Netherlands' }
-                ]
-            },
-            'G': {
-                name: 'Group G',
-                matches: [
-                    { date: 'Mon Jun 15 - 16:00h', home: 'Belgium', away: 'Egypt' },
-                    { date: 'Mon Jun 15 - 22:00h', home: 'Iran', away: 'New Zealand' },
-                    { date: 'Jun 21 - 16:00h', home: 'Belgium', away: 'Iran' },
-                    { date: 'Jun 21 - 22:00h', home: 'New Zealand', away: 'Egypt' },
-                    { date: 'Jun 27 - 00:00h', home: 'New Zealand', away: 'Belgium' },
-                    { date: 'Jun 27 - 00:00h', home: 'Egypt', away: 'Iran' }
-                ]
-            },
-            'H': {
-                name: 'Group H',
-                matches: [
-                    { date: 'Mon Jun 15 - 13:00h', home: 'Spain', away: 'Cape Verde' },
-                    { date: 'Mon Jun 15 - 19:00h', home: 'Saudi Arabia', away: 'Uruguay' },
-                    { date: 'Jun 21 - 13:00h', home: 'Spain', away: 'Saudi Arabia' },
-                    { date: 'Jun 21 - 19:00h', home: 'Uruguay', away: 'Cape Verde' },
-                    { date: 'Jun 26 - 21:00h', home: 'Cape Verde', away: 'Saudi Arabia' },
-                    { date: 'Jun 26 - 21:00h', home: 'Uruguay', away: 'Spain' }
-                ]
-            },
-            'I': {
-                name: 'Group I',
-                matches: [
-                    { date: 'Tue Jun 16 - 16:00h', home: 'France', away: 'Senegal' },
-                    { date: 'Tue Jun 16 - 19:00h', home: 'Iraq', away: 'Norway' },
-                    { date: 'Jun 22 - 18:00h', home: 'France', away: 'Iraq' },
-                    { date: 'Jun 22 - 21:00h', home: 'Norway', away: 'Senegal' },
-                    { date: 'Jun 26 - 16:00h', home: 'Senegal', away: 'Iraq' },
-                    { date: 'Jun 26 - 16:00h', home: 'Norway', away: 'France' }
-                ]
-            },
-            'J': {
-                name: 'Group J',
-                matches: [
-                    { date: 'Tue Jun 16 - 22:00h', home: 'Argentina', away: 'Algeria' },
-                    { date: 'Jun 17 - 01:00h', home: 'Austria', away: 'Jordan' },
-                    { date: 'Jun 22 - 14:00h', home: 'Argentina', away: 'Austria' },
-                    { date: 'Jun 23 - 00:00h', home: 'Jordan', away: 'Algeria' },
-                    { date: 'Jun 27 - 23:00h', home: 'Algeria', away: 'Austria' },
-                    { date: 'Jun 27 - 23:00h', home: 'Jordan', away: 'Argentina' }
-                ]
-            },
-            'K': {
-                name: 'Group K',
-                matches: [
-                    { date: 'Wed Jun 17 - 14:00h', home: 'Portugal', away: 'DR Congo' },
-                    { date: 'Wed Jun 17 - 23:00h', home: 'Uzbekistan', away: 'Colombia' },
-                    { date: 'Jun 23 - 14:00h', home: 'Portugal', away: 'Uzbekistan' },
-                    { date: 'Jun 23 - 23:00h', home: 'Colombia', away: 'DR Congo' },
-                    { date: 'Jun 27 - 20:30h', home: 'DR Congo', away: 'Uzbekistan' },
-                    { date: 'Jun 27 - 20:30h', home: 'Colombia', away: 'Portugal' }
-                ]
-            },
-            'L': {
-                name: 'Group L',
-                matches: [
-                    { date: 'Wed Jun 17 - 17:00h', home: 'England', away: 'Croatia' },
-                    { date: 'Wed Jun 17 - 20:00h', home: 'Ghana', away: 'Panama' },
-                    { date: 'Jun 23 - 17:00h', home: 'England', away: 'Ghana' },
-                    { date: 'Jun 23 - 20:00h', home: 'Panama', away: 'Croatia' },
-                    { date: 'Jun 27 - 18:00h', home: 'Croatia', away: 'Ghana' },
-                    { date: 'Jun 27 - 18:00h', home: 'Panama', away: 'England' }
-                ]
-            }
-        };
-
+        
         let currentUser = null;
         let userPredictions = {};
         let realResults = {};
 
+        const groups = {
+            'A': { name: 'Group A', matches: [
+                { date: 'Thu Jun 11 - 16:00h', home: 'Mexico', away: 'South Africa' },
+                { date: 'Thu Jun 11 - 23:00h', home: 'South Korea', away: 'Czech Republic' },
+                { date: 'Jun 18 - 13:00h', home: 'Czech Republic', away: 'South Africa' },
+                { date: 'Jun 18 - 22:00h', home: 'Mexico', away: 'South Korea' },
+                { date: 'Jun 24 - 22:00h', home: 'South Africa', away: 'South Korea' },
+                { date: 'Jun 24 - 22:00h', home: 'Czech Republic', away: 'Mexico' }
+            ]},
+            'B': { name: 'Group B', matches: [
+                { date: 'Fri Jun 12 - 16:00h', home: 'Canada', away: 'Qatar' },
+                { date: 'Jun 13 - 16:00h', home: 'Switzerland', away: 'Bosnia & Herzegovina' },
+                { date: 'Jun 18 - 16:00h', home: 'Switzerland', away: 'Bosnia & Herzegovina' },
+                { date: 'Jun 18 - 19:00h', home: 'Canada', away: 'Qatar' },
+                { date: 'Jun 24 - 16:00h', home: 'Bosnia & Herzegovina', away: 'Qatar' },
+                { date: 'Jun 24 - 16:00h', home: 'Switzerland', away: 'Canada' }
+            ]},
+            'C': { name: 'Group C', matches: [
+                { date: 'Sat Jun 13 - 19:00h', home: 'Brazil', away: 'Morocco' },
+                { date: 'Sat Jun 13 - 22:00h', home: 'Haiti', away: 'Scotland' },
+                { date: 'Jun 19 - 19:00h', home: 'Scotland', away: 'Morocco' },
+                { date: 'Jun 19 - 22:00h', home: 'Brazil', away: 'Haiti' },
+                { date: 'Jun 24 - 19:00h', home: 'Scotland', away: 'Brazil' },
+                { date: 'Jun 24 - 19:00h', home: 'Morocco', away: 'Haiti' }
+            ]},
+            'D': { name: 'Group D', matches: [
+                { date: 'Fri Jun 12 - 22:00h', home: 'USA', away: 'Paraguay' },
+                { date: 'Jun 14 - 01:00h', home: 'Australia', away: 'Turkey' },
+                { date: 'Jun 19 - 16:00h', home: 'USA', away: 'Australia' },
+                { date: 'Jun 20 - 00:00h', home: 'Turkey', away: 'Paraguay' },
+                { date: 'Jun 25 - 23:00h', home: 'Paraguay', away: 'Australia' },
+                { date: 'Jun 25 - 23:00h', home: 'Turkey', away: 'USA' }
+            ]},
+            'E': { name: 'Group E', matches: [
+                { date: 'Sun Jun 14 - 14:00h', home: 'Germany', away: 'Ecuador' },
+                { date: 'Sun Jun 14 - 20:00h', home: 'Ivory Coast', away: 'Curacao' },
+                { date: 'Jun 20 - 17:00h', home: 'Germany', away: 'Ivory Coast' },
+                { date: 'Jun 20 - 21:00h', home: 'Ecuador', away: 'Curacao' },
+                { date: 'Jun 25 - 17:00h', home: 'Curacao', away: 'Ivory Coast' },
+                { date: 'Jun 25 - 17:00h', home: 'Ecuador', away: 'Germany' }
+            ]},
+            'F': { name: 'Group F', matches: [
+                { date: 'Sun Jun 14 - 17:00h', home: 'Netherlands', away: 'Japan' },
+                { date: 'Sun Jun 14 - 23:00h', home: 'Sweden', away: 'Tunisia' },
+                { date: 'Jun 20 - 14:00h', home: 'Netherlands', away: 'Sweden' },
+                { date: 'Jun 21 - 01:00h', home: 'Tunisia', away: 'Japan' },
+                { date: 'Jun 25 - 20:00h', home: 'Japan', away: 'Sweden' },
+                { date: 'Jun 25 - 20:00h', home: 'Tunisia', away: 'Netherlands' }
+            ]},
+            'G': { name: 'Group G', matches: [
+                { date: 'Mon Jun 15 - 16:00h', home: 'Belgium', away: 'Egypt' },
+                { date: 'Mon Jun 15 - 22:00h', home: 'Iran', away: 'New Zealand' },
+                { date: 'Jun 21 - 16:00h', home: 'Belgium', away: 'Iran' },
+                { date: 'Jun 21 - 22:00h', home: 'New Zealand', away: 'Egypt' },
+                { date: 'Jun 27 - 00:00h', home: 'New Zealand', away: 'Belgium' },
+                { date: 'Jun 27 - 00:00h', home: 'Egypt', away: 'Iran' }
+            ]},
+            'H': { name: 'Group H', matches: [
+                { date: 'Mon Jun 15 - 13:00h', home: 'Spain', away: 'Cape Verde' },
+                { date: 'Mon Jun 15 - 19:00h', home: 'Saudi Arabia', away: 'Uruguay' },
+                { date: 'Jun 21 - 13:00h', home: 'Spain', away: 'Saudi Arabia' },
+                { date: 'Jun 21 - 19:00h', home: 'Uruguay', away: 'Cape Verde' },
+                { date: 'Jun 26 - 21:00h', home: 'Cape Verde', away: 'Saudi Arabia' },
+                { date: 'Jun 26 - 21:00h', home: 'Uruguay', away: 'Spain' }
+            ]},
+            'I': { name: 'Group I', matches: [
+                { date: 'Tue Jun 16 - 16:00h', home: 'France', away: 'Senegal' },
+                { date: 'Tue Jun 16 - 19:00h', home: 'Iraq', away: 'Norway' },
+                { date: 'Jun 22 - 18:00h', home: 'France', away: 'Iraq' },
+                { date: 'Jun 22 - 21:00h', home: 'Norway', away: 'Senegal' },
+                { date: 'Jun 26 - 16:00h', home: 'Senegal', away: 'Iraq' },
+                { date: 'Jun 26 - 16:00h', home: 'Norway', away: 'France' }
+            ]},
+            'J': { name: 'Group J', matches: [
+                { date: 'Tue Jun 16 - 22:00h', home: 'Argentina', away: 'Algeria' },
+                { date: 'Jun 17 - 01:00h', home: 'Austria', away: 'Jordan' },
+                { date: 'Jun 22 - 14:00h', home: 'Argentina', away: 'Austria' },
+                { date: 'Jun 23 - 00:00h', home: 'Jordan', away: 'Algeria' },
+                { date: 'Jun 27 - 23:00h', home: 'Algeria', away: 'Austria' },
+                { date: 'Jun 27 - 23:00h', home: 'Jordan', away: 'Argentina' }
+            ]},
+            'K': { name: 'Group K', matches: [
+                { date: 'Wed Jun 17 - 14:00h', home: 'Portugal', away: 'DR Congo' },
+                { date: 'Wed Jun 17 - 23:00h', home: 'Uzbekistan', away: 'Colombia' },
+                { date: 'Jun 23 - 14:00h', home: 'Portugal', away: 'Uzbekistan' },
+                { date: 'Jun 23 - 23:00h', home: 'Colombia', away: 'DR Congo' },
+                { date: 'Jun 27 - 20:30h', home: 'DR Congo', away: 'Uzbekistan' },
+                { date: 'Jun 27 - 20:30h', home: 'Colombia', away: 'Portugal' }
+            ]},
+            'L': { name: 'Group L', matches: [
+                { date: 'Wed Jun 17 - 17:00h', home: 'England', away: 'Croatia' },
+                { date: 'Wed Jun 17 - 20:00h', home: 'Ghana', away: 'Panama' },
+                { date: 'Jun 23 - 17:00h', home: 'England', away: 'Ghana' },
+                { date: 'Jun 23 - 20:00h', home: 'Panama', away: 'Croatia' },
+                { date: 'Jun 27 - 18:00h', home: 'Croatia', away: 'Ghana' },
+                { date: 'Jun 27 - 18:00h', home: 'Panama', away: 'England' }
+            ]}
+        };
+
         async function apiCall(action, data = null) {
             try {
                 if (data) {
-                    const response = await fetch(SCRIPT_URL, {
+                    await fetch(SCRIPT_URL, {
                         method: 'POST',
                         mode: 'no-cors',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -283,10 +181,8 @@
                     });
                     return { success: true };
                 } else {
-                    const url = SCRIPT_URL + '?action=' + action;
-                    const response = await fetch(url, { method: 'GET', mode: 'cors' });
-                    const result = await response.json();
-                    return result;
+                    const response = await fetch(SCRIPT_URL + '?action=' + action);
+                    return await response.json();
                 }
             } catch (error) {
                 console.error('API Error:', error);
@@ -298,68 +194,33 @@
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
             const errorEl = document.getElementById('errorMsg');
-            const loginBtn = document.getElementById('loginBtn');
 
-            if (!username) { 
-                errorEl.textContent = "⚠️ Please enter your nickname"; 
-                errorEl.style.display = 'block'; 
-                return; 
-            }
-
-            if (password !== PASSWORD && password !== ADMIN_PASSWORD) {
-                errorEl.textContent = "❌ Incorrect password";
-                errorEl.style.display = 'block';
-                return;
-            }
+            if (!username) { errorEl.textContent = "Please enter nickname"; errorEl.style.display = 'block'; return; }
+            if (password !== PASSWORD && password !== ADMIN_PASSWORD) { errorEl.textContent = "Wrong password"; errorEl.style.display = 'block'; return; }
 
             if (password === PASSWORD) {
-                loginBtn.disabled = true;
-                loginBtn.textContent = 'Checking...';
-                
                 const result = await apiCall('getUsers');
-                
-                if (result.success) {
-                    if (result.users.map(u => u.toLowerCase()).includes(username.toLowerCase())) {
-                        errorEl.textContent = "⚠️ This nickname is already taken";
-                        errorEl.style.display = 'block';
-                        loginBtn.disabled = false;
-                        loginBtn.textContent = 'Enter';
-                        return;
-                    }
-                    await apiCall('registerUser', { username: username });
+                if (result.success && result.users.map(u => u.toLowerCase()).includes(username.toLowerCase())) {
+                    errorEl.textContent = "Nickname already taken - use another one";
+                    errorEl.style.display = 'block';
+                    return;
                 }
-                
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'Enter';
+                await apiCall('registerUser', { username: username });
+                userPredictions = {};
             }
 
             currentUser = username;
             document.getElementById('currentUser').textContent = username;
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
-            errorEl.style.display = 'none';
-
-            if (password === PASSWORD) {
-                await loadUserPredictions();
-            }
             
             await loadRealResults();
             renderGroups();
-            updateMyScore();
-        }
-
-        async function loadUserPredictions() {
-            const result = await apiCall('getPredictions', { username: currentUser });
-            if (result.success) {
-                userPredictions = result.predictions;
-            }
         }
 
         async function loadRealResults() {
             const result = await apiCall('getResults');
-            if (result.success) {
-                realResults = result.results;
-            }
+            if (result.success) realResults = result.results;
         }
 
         function logout() { location.reload(); }
@@ -367,11 +228,9 @@
         function renderGroups() {
             const container = document.getElementById('groupsContainer');
             container.innerHTML = '';
-
             for (const [groupKey, group] of Object.entries(groups)) {
                 const groupDiv = document.createElement('div');
                 groupDiv.className = 'group-card';
-
                 const title = document.createElement('div');
                 title.className = 'group-title';
                 title.textContent = group.name;
@@ -381,232 +240,47 @@
                     const matchKey = `${groupKey}-${matchIdx}`;
                     const matchDiv = document.createElement('div');
                     matchDiv.className = 'match';
-
-                    const header = document.createElement('div');
-                    header.className = 'match-header';
-                    header.textContent = match.date;
-                    matchDiv.appendChild(header);
-
-                    const teams = document.createElement('div');
-                    teams.className = 'match-teams';
-                    teams.innerHTML = `<div class="team-name">${match.home}</div><div class="vs">VS</div><div class="team-name">${match.away}</div>`;
-                    matchDiv.appendChild(teams);
-
+                    matchDiv.innerHTML = `<div class="match-header">${match.date}</div>
+                        <div class="match-teams"><div class="team-name">${match.home}</div><div class="vs">VS</div><div class="team-name">${match.away}</div></div>`;
+                    
                     const buttons = document.createElement('div');
                     buttons.className = 'prediction-buttons';
-                    buttons.appendChild(createPredButton(matchKey, 'home', match.home));
-                    buttons.appendChild(createPredButton(matchKey, 'draw', 'Draw'));
-                    buttons.appendChild(createPredButton(matchKey, 'away', match.away));
-
+                    
+                    ['home', 'draw', 'away'].forEach(type => {
+                        const btn = document.createElement('button');
+                        btn.className = 'pred-btn';
+                        btn.textContent = type === 'draw' ? 'Draw' : (type === 'home' ? match.home : match.away);
+                        if (userPredictions[matchKey] === type) btn.classList.add('selected');
+                        btn.onclick = () => {
+                            if (!realResults[matchKey]) {
+                                userPredictions[matchKey] = type;
+                                renderGroups();
+                            }
+                        };
+                        buttons.appendChild(btn);
+                    });
+                    
                     matchDiv.appendChild(buttons);
                     groupDiv.appendChild(matchDiv);
                 });
-
                 container.appendChild(groupDiv);
             }
-        }
-
-        function createPredButton(matchKey, type, label) {
-            const btn = document.createElement('button');
-            btn.className = 'pred-btn';
-            btn.textContent = label;
-
-            if (userPredictions[matchKey] === type) {
-                btn.classList.add('selected');
-            }
-
-            if (realResults[matchKey]) {
-                if (userPredictions[matchKey] === type) {
-                    btn.classList.add(userPredictions[matchKey] === realResults[matchKey] ? 'correct' : 'incorrect');
-                }
-            }
-
-            btn.onclick = () => {
-                if (realResults[matchKey]) return;
-                userPredictions[matchKey] = type;
-                renderGroups();
-                updateMyScore();
-            };
-
-            return btn;
         }
 
         async function savePredictions() {
             if (!currentUser) return;
-            const saveBtn = document.getElementById('saveBtn');
-            saveBtn.disabled = true;
-            saveBtn.textContent = 'Saving...';
-            
             const result = await apiCall('savePredictions', { username: currentUser, predictions: userPredictions });
-            
-            saveBtn.disabled = false;
-            saveBtn.textContent = '💾 Save Predictions';
-            
-            if (result.success) {
-                alert('✅ Predictions saved successfully!');
-            } else {
-                alert('❌ Error saving predictions: ' + result.error);
-            }
-        }
-
-        function updateMyScore() {
-            const score = calculateScore(userPredictions);
-            document.getElementById('myCorrect').textContent = score.correct;
-            document.getElementById('myTotal').textContent = score.total;
-            document.getElementById('myPoints').textContent = score.points;
-        }
-
-        function calculateScore(predictions) {
-            let correct = 0, total = 0, points = 0;
-            for (const [matchKey, prediction] of Object.entries(predictions)) {
-                if (realResults[matchKey]) {
-                    total++;
-                    if (prediction === realResults[matchKey]) {
-                        correct++;
-                        points += prediction === 'draw' ? POINTS_DRAW : POINTS_WIN;
-                    }
-                }
-            }
-            return { correct, total, points };
+            alert(result.success ? '✅ Saved!' : '❌ Error: ' + result.error);
         }
 
         async function toggleAdmin() {
-            const pass = prompt('🔒 Admin Password:');
+            const pass = prompt('Admin password:');
             if (pass === ADMIN_PASSWORD) {
-                const panel = document.getElementById('adminPanel');
-                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-                if (panel.style.display === 'block') {
-                    await loadRealResults();
-                    renderRealResults();
-                }
-            } else if (pass !== null) {
-                alert('❌ Incorrect admin password');
+                document.getElementById('adminPanel').style.display = 'block';
             }
         }
 
-        async function loadUserList() {
-            const container = document.getElementById('userListContainer');
-            container.innerHTML = '<p class="loading">Loading users...</p>';
-            const result = await apiCall('getUsers');
-            if (result.success && result.users.length > 0) {
-                let html = '<div class="user-list">';
-                result.users.forEach(user => { html += `<div class="user-item">👤 ${user}</div>`; });
-                html += `<div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.2); color: #00ffff;"><strong>Total: ${result.users.length} users</strong></div></div>`;
-                container.innerHTML = html;
-            } else {
-                container.innerHTML = '<p style="text-align: center; color: #aaa;">No users registered yet</p>';
-            }
-        }
-
-        function renderRealResults() {
-            const container = document.getElementById('realResultsContainer');
-            container.innerHTML = '';
-            for (const [groupKey, group] of Object.entries(groups)) {
-                const groupDiv = document.createElement('div');
-                groupDiv.style.marginBottom = '20px';
-                const groupTitle = document.createElement('h4');
-                groupTitle.textContent = group.name;
-                groupTitle.style.color = '#00ffff';
-                groupTitle.style.marginBottom = '10px';
-                groupDiv.appendChild(groupTitle);
-
-                group.matches.forEach((match, matchIdx) => {
-                    const matchKey = `${groupKey}-${matchIdx}`;
-                    const matchDiv = document.createElement('div');
-                    matchDiv.style.background = 'rgba(0,0,0,0.3)';
-                    matchDiv.style.padding = '10px';
-                    matchDiv.style.marginBottom = '8px';
-                    matchDiv.style.borderRadius = '5px';
-                    matchDiv.innerHTML = `<div style="font-size: 0.85em; color: #aaa; margin-bottom: 5px;">${match.date}</div><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"><span style="font-weight: bold;">${match.home}</span><span style="color: #00ffff;">VS</span><span style="font-weight: bold;">${match.away}</span></div>`;
-
-                    const buttons = document.createElement('div');
-                    buttons.className = 'real-result-select';
-
-                    const homeBtn = document.createElement('button');
-                    homeBtn.className = 'result-btn';
-                    homeBtn.textContent = match.home;
-                    if (realResults[matchKey] === 'home') homeBtn.classList.add('selected');
-                    homeBtn.onclick = () => { realResults[matchKey] = 'home'; renderRealResults(); };
-
-                    const drawBtn = document.createElement('button');
-                    drawBtn.className = 'result-btn';
-                    drawBtn.textContent = 'Draw';
-                    if (realResults[matchKey] === 'draw') drawBtn.classList.add('selected');
-                    drawBtn.onclick = () => { realResults[matchKey] = 'draw'; renderRealResults(); };
-
-                    const awayBtn = document.createElement('button');
-                    awayBtn.className = 'result-btn';
-                    awayBtn.textContent = match.away;
-                    if (realResults[matchKey] === 'away') awayBtn.classList.add('selected');
-                    awayBtn.onclick = () => { realResults[matchKey] = 'away'; renderRealResults(); };
-
-                    buttons.appendChild(homeBtn);
-                    buttons.appendChild(drawBtn);
-                    buttons.appendChild(awayBtn);
-                    matchDiv.appendChild(buttons);
-                    groupDiv.appendChild(matchDiv);
-                });
-                container.appendChild(groupDiv);
-            }
-        }
-
-        async function saveRealResults() {
-            const btn = document.getElementById('saveResultsBtn');
-            btn.disabled = true;
-            btn.textContent = 'Saving...';
-            const result = await apiCall('saveResults', { results: realResults });
-            btn.disabled = false;
-            btn.textContent = '💾 Save Real Results & Calculate Scores';
-            if (result.success) {
-                alert('✅ Real results saved! Scores have been updated.');
-                renderGroups();
-                updateMyScore();
-                showLeaderboard();
-            } else {
-                alert('❌ Error saving results: ' + result.error);
-            }
-        }
-
-        async function showLeaderboard() {
-            const btn = document.getElementById('loadLeaderboardBtn');
-            btn.disabled = true;
-            btn.textContent = 'Loading...';
-            const result = await apiCall('getAllPredictions');
-            btn.disabled = false;
-            btn.textContent = '🔄 Update Standings';
-            if (!result.success) {
-                document.getElementById('leaderboardContent').innerHTML = '<p style="text-align: center; color: #ff4444;">Error loading data</p>';
-                return;
-            }
-            const allPredictions = result.predictions;
-            const users = Object.keys(allPredictions);
-            const leaderboard = [];
-            for (const user of users) {
-                const score = calculateScore(allPredictions[user]);
-                leaderboard.push({ username: user, ...score });
-            }
-            leaderboard.sort((a, b) => b.points - a.points);
-            const container = document.getElementById('leaderboardContent');
-            if (leaderboard.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #aaa;">No participants yet</p>';
-                return;
-            }
-            let html = '<div class="leaderboard"><table class="stats-table"><thead><tr><th>🏆 Rank</th><th>👤 Player</th><th>✅ Correct</th><th>📊 Total</th><th>⭐ Points</th></tr></thead><tbody>';
-            leaderboard.forEach((entry, index) => {
-                const rank = index + 1;
-                let rowClass = '', medal = '';
-                if (rank === 1) { rowClass = 'rank-1'; medal = '🥇'; }
-                else if (rank === 2) { rowClass = 'rank-2'; medal = '🥈'; }
-                else if (rank === 3) { rowClass = 'rank-3'; medal = '🥉'; }
-                html += `<tr class="${rowClass}"><td>${medal} #${rank}</td><td><strong>${entry.username}</strong></td><td>${entry.correct}</td><td>${entry.total}</td><td class="points">${entry.points}</td></tr>`;
-            });
-            html += `</tbody></table><p style="text-align: center; margin-top: 20px; color: #00ff64;"><strong>Points: ${POINTS_WIN} for winner | ${POINTS_DRAW} for draw</strong> | Total players: <strong>${leaderboard.length}</strong></p></div>`;
-            container.innerHTML = html;
-        }
-
-        document.getElementById('password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') login();
-        });
+        document.getElementById('password').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
     </script>
 </body>
 </html>
