@@ -6,7 +6,13 @@
     <title>World Cup 2026 Predictor</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); min-height: 100vh; color: white; padding: 20px; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); 
+            min-height: 100vh; 
+            color: white; 
+            padding: 20px; 
+        }
         .login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
         .login-box { background: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 15px; border: 2px solid #00ffff; max-width: 400px; width: 100%; text-align: center; }
         .login-box h1 { color: #00ffff; margin-bottom: 30px; text-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
@@ -63,7 +69,7 @@
         </div>
     </div>
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymSU5XKCaWdvwZQJxs2TO3wzhYmu00zZ0CruaBxozQ6dCGijGusqmS5GcZYk0l7RrJPA/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxEX_15k-gY7nmgoh2i8npo70zHm4ZRFab9R6kNqvjh60qX4XO1bYDIjpt1ZYs8rs1n2w/exec';
         const PASSWORD = '1234';
         const ADMIN_PASSWORD = 'julio';
         
@@ -206,9 +212,11 @@
                     return;
                 }
                 await apiCall('registerUser', { username: username });
-                userPredictions = {};
             }
 
+            // INICIALIZAR userPredictions SIEMPRE
+            userPredictions = {};
+            
             currentUser = username;
             document.getElementById('currentUser').textContent = username;
             document.getElementById('loginScreen').style.display = 'none';
@@ -220,17 +228,26 @@
 
         async function loadRealResults() {
             const result = await apiCall('getResults');
-            if (result.success) realResults = result.results;
+            if (result.success && result.results) {
+                realResults = result.results;
+            } else {
+                realResults = {};
+            }
         }
 
         function logout() { location.reload(); }
 
         function renderGroups() {
+            // ASEGURAR que userPredictions exista
+            if (!userPredictions) userPredictions = {};
+            
             const container = document.getElementById('groupsContainer');
             container.innerHTML = '';
+            
             for (const [groupKey, group] of Object.entries(groups)) {
                 const groupDiv = document.createElement('div');
                 groupDiv.className = 'group-card';
+                
                 const title = document.createElement('div');
                 title.className = 'group-title';
                 title.textContent = group.name;
@@ -240,8 +257,13 @@
                     const matchKey = `${groupKey}-${matchIdx}`;
                     const matchDiv = document.createElement('div');
                     matchDiv.className = 'match';
+                    
                     matchDiv.innerHTML = `<div class="match-header">${match.date}</div>
-                        <div class="match-teams"><div class="team-name">${match.home}</div><div class="vs">VS</div><div class="team-name">${match.away}</div></div>`;
+                        <div class="match-teams">
+                            <div class="team-name">${match.home}</div>
+                            <div class="vs">VS</div>
+                            <div class="team-name">${match.away}</div>
+                        </div>`;
                     
                     const buttons = document.createElement('div');
                     buttons.className = 'prediction-buttons';
@@ -250,7 +272,12 @@
                         const btn = document.createElement('button');
                         btn.className = 'pred-btn';
                         btn.textContent = type === 'draw' ? 'Draw' : (type === 'home' ? match.home : match.away);
-                        if (userPredictions[matchKey] === type) btn.classList.add('selected');
+                        
+                        // VERIFICAR que userPredictions exista antes de acceder
+                        if (userPredictions && userPredictions[matchKey] === type) {
+                            btn.classList.add('selected');
+                        }
+                        
                         btn.onclick = () => {
                             if (!realResults[matchKey]) {
                                 userPredictions[matchKey] = type;
@@ -270,13 +297,15 @@
         async function savePredictions() {
             if (!currentUser) return;
             const result = await apiCall('savePredictions', { username: currentUser, predictions: userPredictions });
-            alert(result.success ? '✅ Saved!' : '❌ Error: ' + result.error);
+            alert(result.success ? '✅ Predictions saved!' : '❌ Error: ' + result.error);
         }
 
         async function toggleAdmin() {
             const pass = prompt('Admin password:');
             if (pass === ADMIN_PASSWORD) {
                 document.getElementById('adminPanel').style.display = 'block';
+            } else {
+                alert('Wrong password');
             }
         }
 
