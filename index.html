@@ -437,7 +437,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqAofimLWqgYrCMGgB92HwT25z8CJCefZ3ubMskueJuUPazAnfrQ3x8-9xGJmHxbEb5w/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymSU5XKCaWdvwZQJxs2TO3wzhYmu00zZ0CruaBxozQ6dCGijGusqmS5GcZYk0l7RrJPA/exec';
         
         const PASSWORD = '1234';
         const ADMIN_PASSWORD = 'julio';
@@ -583,25 +583,36 @@
         let userPredictions = {};
         let realResults = {};
 
-        async function apiCall(action, data = null) {
-            const url = SCRIPT_URL + (data ? '' : '?action=' + action);
-            const options = {
-                method: data ? 'POST' : 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            };
-            if (data) {
-                options.body = JSON.stringify({ action: action, ...data });
-            }
+async function apiCall(action, data = null) {
+    try {
+        if (data) {
+            // POST: usar text/plain para evitar CORS
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 
+                    'Content-Type': 'text/plain;charset=utf-8' 
+                },
+                body: JSON.stringify({ action: action, ...data })
+            });
             
-            try {
-                const response = await fetch(url, options);
-                const result = await response.json();
-                return result;
-            } catch (error) {
-                console.error('API Error:', error);
-                return { success: false, error: error.message };
-            }
+            // Con no-cors no podemos leer la respuesta, asumimos éxito
+            return { success: true };
+        } else {
+            // GET: funciona normal
+            const url = SCRIPT_URL + '?action=' + action;
+            const response = await fetch(url, {
+                method: 'GET',
+                mode: 'cors'
+            });
+            const result = await response.json();
+            return result;
         }
+    } catch (error) {
+        console.error('API Error:', error);
+        return { success: false, error: error.message };
+    }
+}
 
         async function login() {
             const username = document.getElementById('username').value.trim();
